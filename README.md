@@ -8,5 +8,7 @@
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While I believe this map is effective at helping the user understand the distribution of online housing posts available in Surrey, there are many ways in which it could be improved. Each individual point feature could be made into a clickable entity that displays more information about the residence like cost, sqft, and the Craigstlist/VRBO URL. Further, a more representative symbol than a circle could be used to better convey the nature of the data. Lastly, a long term goal would be to create a map that auto-updates as new housing posts are collected.  
 
+The following link will take you to my map: https://ubc-geob472-spring2019.github.io/andersonfranklin-web/G472_Web_Map_with_Buttons.html
+
 The following screenshot shows an interesting part of the data, there are almost no individual rooms available in South Surrey compared to the rest of the city:
 ![alt text](https://ubc-geob472-spring2019.github.io/andersonfranklin-web/screenshot.png "Housing Clusters in Surrey")

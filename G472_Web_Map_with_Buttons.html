@@ -75,57 +75,57 @@ map.on('load', function () {
         url: 'mapbox://andersonfranklin.3bhh2fpd'
     });
     map.addLayer({
-        'id': 'Entire Properties',
+        'id': 'Entire-Properties',
         'type': 'circle',
-        'source': 'Entire Properties',
+        'source': 'Entire-Properties',
         'layout': {
-            'visibility': 'none'
+            'visibility': 'visible'
         },
         'paint': {
             'circle-radius': 3,
             'circle-color': 'rgba(251,142,40,1)'
         },
-        'source-layer': 'Entire Properties'
+        'source-layer': 'Entire-Properties'
     });
 
-    map.addSource('Secondary Suites', {
+    map.addSource('Secondary-Suites', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.1h2q5p8f'
     });
     map.addLayer({
-        'id': 'Secondary Suites',
+        'id': 'Secondary-Suites',
         'type': 'circle',
         'source': 'Secondary Suites',
         'layout': {
-            'visibility': 'none'
+            'visibility': 'visible'
         },
         'paint': {
             'circle-radius': 3,
             'circle-color': 'rgba(70,221,70,1)'
         },
-        'source-layer': 'Secondary Suites'
+        'source-layer': 'Secondary-Suites'
     });
 
-    map.addSource('Individual Rooms', {
+    map.addSource('Individual-Rooms', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.1jbyuubz'
     });
     map.addLayer({
-        'id': 'Individual Rooms',
+        'id': 'Single-Rooms',
         'type': 'circle',
         'source': 'Individual Rooms',
         'layout': {
-            'visibility': 'none'
+            'visibility': 'visible'
         },
         'paint': {
             'circle-radius': 3,
             'circle-color': 'rgba(167,121,230,1)'
         },
-        'source-layer': 'Individual Rooms'
+        'source-layer': 'Individual-Rooms'
     });
 });
 
-var toggleableLayerIds = [ 'Entire Properties', 'Secondary Suites','Individual Rooms' ];
+var toggleableLayerIds = [ 'Entire-Properties', 'Secondary-Suites','Single-Rooms' ];
 
 for (var i = 0; i < toggleableLayerIds.length; i++) {
     var id = toggleableLayerIds[i];

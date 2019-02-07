@@ -51,9 +51,50 @@
         background: #3074a4;
     }
 </style>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h2,
+h3 {
+  margin: 10px;
+  font-size: 1.2em;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+p {
+  font-size: 0.85em;
+  margin: 10px;
+  text-align: left;
+}
+
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 200px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+#features {
+  top: 0;
+  height: 100px;
+  margin-top: 10px;
+  width: 250px;
+}
+</style>
 
 <nav id="menu"></nav>
 <div id="map"></div>
+<div class='map-overlay' id='features'><h2>Online Housing Posts in Surrey</h2><div id='pd'><p>By Andy Fink</p></div></div>
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg';

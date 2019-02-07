@@ -76,7 +76,10 @@ map.on('load', function () {
             'visibility': 'visible'
         },
         'paint': {
-            'circle-radius': 3,
+          'circle-radius': {
+          'base': 2.5,
+          'stops': [[11, 2.75], [15, 3.5], [18, 6.5], [22,15]]
+          },
             'circle-color': 'rgba(251,142,40,1)'
         },
         'source-layer': 'EntireProperties-6pw31u'
@@ -93,7 +96,10 @@ map.on('load', function () {
             'visibility': 'visible'
         },
         'paint': {
-            'circle-radius': 3,
+          'circle-radius': {
+          'base': 2.5,
+          'stops': [[11, 2.75], [15, 3.5], [18, 6.5], [22,15]]
+          },
             'circle-color': 'rgba(70,221,70,1)'
         },
         'source-layer': 'SecondarySuites-67gind'
@@ -110,7 +116,10 @@ map.on('load', function () {
             'visibility': 'visible'
         },
         'paint': {
-            'circle-radius': 3,
+          'circle-radius': {
+          'base': 2.5,
+          'stops': [[11, 2.75], [15, 3.5], [18, 6.5], [22,15]]
+          },
             'circle-color': 'rgba(167,121,230,1)'
         },
         'source-layer': 'IndividualRooms-9dwovl'

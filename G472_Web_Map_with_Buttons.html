@@ -64,20 +64,20 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg';
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/andersonfranklin/cjru0bo3t023s1fqm7pnwdd22',
+    style: 'mapbox://styles/andersonfranklin/cjrtilkco0w9y1fmezlr2cv4h',
     zoom: 10.8,
     center: [-122.778829, 49.115205]
 });
 
 map.on('load', function () {
-    map.addSource('Entire_Properties', {
+    map.addSource('Entire Properties', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.3bhh2fpd'
     });
     map.addLayer({
-        'id': 'Entire_Properties',
+        'id': 'Entire Properties',
         'type': 'circle',
-        'source': 'Entire_Properties',
+        'source': 'Entire Properties',
         'layout': {
             'visibility': 'visible'
         },
@@ -85,17 +85,17 @@ map.on('load', function () {
             'circle-radius': 3,
             'circle-color': 'rgba(251,142,40,1)'
         },
-        'source-layer': 'Entire_Properties'
+        'source-layer': 'Entire Properties'
     });
 
-    map.addSource('Secondary_Suites', {
+    map.addSource('Secondary Suites', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.1h2q5p8f'
     });
     map.addLayer({
-        'id': 'Secondary_Suites',
+        'id': 'Secondary Suites',
         'type': 'circle',
-        'source': 'Secondary_Suites',
+        'source': 'Secondary Suites',
         'layout': {
             'visibility': 'visible'
         },
@@ -103,15 +103,15 @@ map.on('load', function () {
             'circle-radius': 3,
             'circle-color': 'rgba(70,221,70,1)'
         },
-        'source-layer': 'Secondary_Suites'
+        'source-layer': 'Secondary Suites'
     });
 
-    map.addSource('Individual_Rooms', {
+    map.addSource('Individual Rooms', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.1jbyuubz'
     });
     map.addLayer({
-        'id': 'Single_Rooms',
+        'id': 'Individual Rooms',
         'type': 'circle',
         'source': 'Individual Rooms',
         'layout': {
@@ -121,11 +121,11 @@ map.on('load', function () {
             'circle-radius': 3,
             'circle-color': 'rgba(167,121,230,1)'
         },
-        'source-layer': 'Individual_Rooms'
+        'source-layer': 'Individual Rooms'
     });
 });
 
-var toggleableLayerIds = [ 'Entire_Properties', 'Secondary_Suites','Single_Rooms' ];
+var toggleableLayerIds = [ 'Entire Properties', 'Secondary Suites','Individual Rooms' ];
 
 for (var i = 0; i < toggleableLayerIds.length; i++) {
     var id = toggleableLayerIds[i];

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title>Show and hide layers</title>
+    <title>Surrey Online Housing Posts</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' />
@@ -60,9 +60,6 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/andersonfranklin/cjrubcrvi0c8u1fjxg44997np',
-    legendControl: {
-        position: 'topleft'
-      },
     zoom: 10.6,
     center: [-122.778829, 49.115205]
 });
@@ -152,7 +149,7 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
     layers.appendChild(link);
 }
 map.addControl(new mapboxgl.NavigationControl());
-map.legendControl.addLegend('<strong>Distribution of Online Housing Posts in Surrey</strong>');
+
 </script>
 
 </body>

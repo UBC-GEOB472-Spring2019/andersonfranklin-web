@@ -80,7 +80,7 @@ map.on('load', function () {
             'circle-color': 'rgba(251,142,40,1)'
         },
         'source-layer': 'EntireProperties-6pw31u'
-    }, 'place_label');
+    });
     map.addSource('Secondary Suites', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.1h2q5p8f'
@@ -97,7 +97,7 @@ map.on('load', function () {
             'circle-color': 'rgba(70,221,70,1)'
         },
         'source-layer': 'SecondarySuites-67gind'
-    }, 'place_label');
+    });
     map.addSource('Individual Rooms', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.1jbyuubz'
@@ -114,7 +114,7 @@ map.on('load', function () {
             'circle-color': 'rgba(167,121,230,1)'
         },
         'source-layer': 'IndividualRooms-9dwovl'
-    }, 'place_label');
+    });
 });
 var toggleableLayerIds = [ 'Entire Properties', 'Secondary Suites','Individual Rooms' ];
 for (var i = 0; i < toggleableLayerIds.length; i++) {

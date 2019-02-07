@@ -25,7 +25,6 @@
         border: 1px solid rgba(0,0,0,0.4);
         font-family: 'Open Sans', sans-serif;
     }
-
     #menu a {
         font-size: 13px;
         color: #404040;
@@ -37,21 +36,17 @@
         border-bottom: 1px solid rgba(0,0,0,0.25);
         text-align: center;
     }
-
     #menu a:last-child {
         border: none;
     }
-
     #menu a:hover {
         background-color: #f8f8f8;
         color: #404040;
     }
-
     #menu a.active {
         background-color: #3887be;
         color: #ffffff;
     }
-
     #menu a.active:hover {
         background: #3074a4;
     }
@@ -64,11 +59,10 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg';
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/andersonfranklin/cjru4u8gr069v1fu7p56yxxan',
+    style: 'mapbox://styles/andersonfranklin/cjru2qfls04cl1fmsqb65uhtx',
     zoom: 10.8,
     center: [-122.778829, 49.115205]
 });
-
 map.on('load', function () {
     map.addSource('Entire Properties', {
         type: 'vector',
@@ -82,15 +76,11 @@ map.on('load', function () {
             'visibility': 'visible'
         },
         'paint': {
-          'circle-radius': {
-            'base': 2.5,
-            'stops': [[11, 3], [22, 180]]
-          },
+            'circle-radius': 3,
             'circle-color': 'rgba(251,142,40,1)'
         },
         'source-layer': 'EntireProperties-6pw31u'
     });
-
     map.addSource('Secondary Suites', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.1h2q5p8f'
@@ -98,20 +88,16 @@ map.on('load', function () {
     map.addLayer({
         'id': 'Secondary Suites',
         'type': 'circle',
-        'source': 'Secondary Suites',
+        'source': 'SecondarySuites-67gind',
         'layout': {
             'visibility': 'visible'
         },
         'paint': {
-          'circle-radius': {
-            'base': 2.5,
-            'stops': [[11, 3], [22, 180]]
-          },
+            'circle-radius': 3,
             'circle-color': 'rgba(70,221,70,1)'
         },
         'source-layer': 'SecondarySuites-67gind'
     });
-
     map.addSource('Individual Rooms', {
         type: 'vector',
         url: 'mapbox://andersonfranklin.1jbyuubz'
@@ -119,38 +105,29 @@ map.on('load', function () {
     map.addLayer({
         'id': 'Individual Rooms',
         'type': 'circle',
-        'source': 'Individual Rooms',
+        'source': 'IndividualRooms-9dwovl',
         'layout': {
             'visibility': 'visible'
         },
         'paint': {
-          'circle-radius': {
-            'base': 2.5,
-            'stops': [[11, 3], [22, 180]]
-          },
+            'circle-radius': 3,
             'circle-color': 'rgba(167,121,230,1)'
         },
         'source-layer': 'IndividualRooms-9dwovl'
     });
 });
-
 var toggleableLayerIds = [ 'Entire Properties', 'Secondary Suites','Individual Rooms' ];
-
 for (var i = 0; i < toggleableLayerIds.length; i++) {
     var id = toggleableLayerIds[i];
-
     var link = document.createElement('a');
     link.href = '#';
     link.className = 'active';
     link.textContent = id;
-
     link.onclick = function (e) {
         var clickedLayer = this.textContent;
         e.preventDefault();
         e.stopPropagation();
-
         var visibility = map.getLayoutProperty(clickedLayer, 'visibility');
-
         if (visibility === 'visible') {
             map.setLayoutProperty(clickedLayer, 'visibility', 'none');
             this.className = '';
@@ -159,11 +136,9 @@ for (var i = 0; i < toggleableLayerIds.length; i++) {
             map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
         }
     };
-
     var layers = document.getElementById('menu');
     layers.appendChild(link);
 }
-
 </script>
 
 </body>

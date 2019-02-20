@@ -15,16 +15,16 @@ const mappa = new Mappa('Leaflet');
 
 // Lets change the map tiles to something with more contrast
 const options = {
-  lat: 0,
-  lng: 0,
-  zoom: 4,
+  lat: 49.2606,
+  lng: -123.2460,
+  zoom: 7,
   style: "https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png"
 }
 
 function setup(){
   canvas = createCanvas(640,640);
-  myMap = mappa.tileMap(options); 
-  myMap.overlay(canvas) 
+  myMap = mappa.tileMap(options);
+  myMap.overlay(canvas)
 
   // Load the data
   meteorites = loadTable('Meteorite_Landings.csv', 'csv', 'header');
@@ -32,7 +32,7 @@ function setup(){
   // Only redraw the meteorites when the map change and not every frame.
   myMap.onChange(drawMeteorites);
 
-  fill(70, 203,31); 
+  fill(70, 203,31);
   stroke(100);
 }
 
@@ -45,7 +45,7 @@ function drawMeteorites() {
   clear();
 
   for (let i = 0; i < meteorites.getRowCount(); i++) {
-    // Get the lat/lng of each meteorite 
+    // Get the lat/lng of each meteorite
     const latitude = Number(meteorites.getString(i, 'reclat'));
     const longitude = Number(meteorites.getString(i, 'reclong'));
 

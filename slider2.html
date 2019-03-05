@@ -15,30 +15,25 @@ body {
   padding: 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
 }
-
 #map {
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
 }
-
 h1 {
   font-size: 20px;
   line-height: 30px;
 }
-
 h2 {
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 10px;
 }
-
 a {
   text-decoration: none;
   color: #2dc4b2;
 }
-
 #console {
   position: absolute;
   width: 240px;
@@ -49,23 +44,19 @@ a {
 .session {
   margin-bottom: 20px;
 }
-
 .row {
   height: 12px;
   width: 100%;
 }
-
 .colors {
   background: linear-gradient(to right, #e8e802, #ff9a2e, #f18604, #fc0303);
   margin-bottom: 5px;
 }
-
 .label {
   width: 15%;
   display: inline-block;
   text-align: center;
 }
-
 </style>
 
 <div id='map'></div>
@@ -90,36 +81,32 @@ a {
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg';
-
 var map = new mapboxgl.Map({
   container: 'map', // container element id
   style: 'mapbox://styles/andersonfranklin/cjsvefczs6s2r1fmzcbp5kbcm',
   center: [-124.063953, 54.765010], // initial map center in [lon, lat]
   zoom: 4.72
 });
-
 map.on('load', function() {
   map.addSource('Fires', {
-      type: 'vector',
+      type: 'fill',
       url: 'mapbox://andersonfranklin.0lc3tdlp'
   });
   map.addLayer({
-    'id': 'Fires',
-    'source': 'Fires',
-    'source-layer': 'bcfires-5fuus9',
-    'type': 'fill',
-    'paint': {
-      'fill-color': [
-        'interpolate',
-        ['linear'],
-        ['get', 'SIZE_HA'],
-        0, '#e8e802',
-        130222, '#ff9a2e',
-        260443, '#f18604',
-        520885.2, '#fc0303',
-      ],
-}
-    }, 'waterway-label');
+      'id': 'Fires',
+      'type': 'fill',
+      'source': 'Fires',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'paint': {
+        'fill-color': {
+          property: 'SIZE_HA',
+          stops: [[0, '#e8e802'], [130222, '#ff9a2e'], [260443, '#f18604'], [520885.2, '#fc0303']]
+        }
+      },
+      'source-layer': 'bcfires-5fuus9'
+  }, 'admin-2-boundaries-dispute');
 });
 
 </script>

@@ -30,12 +30,13 @@
       <span id="slideLabel"></span>
     </div>
 <script>
+var mapboxAccessToken = {'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg'};
+var map = L.map('map').setView([-124.063953, 54.765010], 4.72);
 
-var map = L.map('mapid',
-  {
-    center: [-124.063953, 54.765010],
-    zoom: 4.72}
-);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
+    id: 'mapbox.light',
+    attribution: ...
+}).addTo(map);
 
 </script>
 </body>

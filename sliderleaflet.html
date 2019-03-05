@@ -30,13 +30,20 @@
       <span id="slideLabel"></span>
     </div>
 <script>
-var mapboxAccessToken = {'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg'};
-var map = L.map('map').setView([-124.063953, 54.765010], 4.72);
+var map = L.map('mapid',
+                {
+                  center: [54.765010, -124.063953],
+                  zoom: 4.72
+                }  // this object holds map options
+          );
 
-L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken, {
-    id: 'mapbox.light',
-    attribution: ...
-}).addTo(map);
+var topoTiles = L.tileLayer(
+                  'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+                  {
+                    maxZoom: 17,
+                    attribution: 'Basemap data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Basemap style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                  }
+                ).addTo(map);
 
 </script>
 </body>

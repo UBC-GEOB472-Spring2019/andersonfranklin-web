@@ -89,7 +89,7 @@ var map = new mapboxgl.Map({
 });
 
 map.on('load', function () {
-  map.addSource('fires', {
+  map.addSource('Fires', {
     'type': 'vector',
     'url': 'mapbox://andersonfranklin.54ucp4rj'
   });
@@ -97,7 +97,7 @@ map.on('load', function () {
   map.addLayer({
     "id": "bcfires4326",
     "type": "fill",
-    "source": 'fires'
+    "source": 'Fires'
     "source-layer": "bcfires3-25p6r5",
     'layout': {
         'visibility': 'visible'
@@ -113,7 +113,7 @@ map.on('load', function () {
         520885.2, '#fc0303'
       ],
     }
-  }, 'road-label')
+  }, 'admin-2-boundaries-dispute')
 });
 
 </script>

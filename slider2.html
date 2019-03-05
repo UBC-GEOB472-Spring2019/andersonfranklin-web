@@ -73,7 +73,7 @@ a {
       <div class='label'>260</div>
       <div class='label'>380</div>
       <div class='label'>520</div>
-      <div class='label'>520+</div>
+      <div class='label'>520++</div>
     </div>
   </div>
 </div>
@@ -91,7 +91,7 @@ var map = new mapboxgl.Map({
 map.on('load', function() {
   map.addLayer({
     id: 'bc-fires',
-    type: 'fill',
+    type: 'vector',
     source: {
       type: 'geojson',
       data: 'https://ubc-geob472-spring2019.github.io/andersonfranklin-web/bcfires4326.geojson' // replace this with the url of your own geojson

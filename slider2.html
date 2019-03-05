@@ -104,19 +104,25 @@ map.on('load', function() {
       url: 'mapbox://andersonfranklin.0lc3tdlp'
   });
   map.addLayer({
-      'id': 'Fires',
-      'type': 'fill',
-      'source': 'Fires',
-      'layout': {
-          'visibility': 'visible'
-      },
-      'paint': {
-        'fill-color': {
-          property: 'SIZE_HA',
-          stops: [[0, '#e8e802'], [130222, '#ff9a2e'], [260443, '#f18604'], [520885.2, '#fc0303']]
-        }
-      },
-      'source-layer': 'bcfires-5fuus9'
+
+    'id': 'fires',
+    'source': 'Fires',
+    'source-layer': 'bcfires-5fuus9',
+    'maxzoom': zoomThreshold,
+    'type': 'fill',
+    'paint': {
+      'fill-color': [
+        'interpolate',
+        ['linear'],
+        ['get', 'SIZE_HA'],
+        0, '#e8e802',
+        130222, '#ff9a2e',
+        260443, '#f18604',
+        520885.2, '#fc0303',
+      ],
+      'fill-opacity': 1
+}
+    }, 'waterway-label');
   });
 });
 

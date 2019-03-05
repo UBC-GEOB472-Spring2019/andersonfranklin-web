@@ -88,25 +88,21 @@ var map = new mapboxgl.Map({
   zoom: 4.72
 });
 
-map.on('load', function () {
+map.on('load', function() {
   map.addLayer({
-    "id": "bc-fires",
-    "type": "fill",
-    "source": {
-      type: 'vector',
-      url: 'mapbox://andersonfranklin.0lc3tdlp'
+    id: 'bc-fires',
+    type: 'fill',
+    source: {
+      type: 'geojson',
+      data: 'https://ubc-geob472-spring2019.github.io/andersonfranklin-web/bcfires4326.geojson' // replace this with the url of your own geojson
     },
-    "source-layer": "bcfires-5fuus9",
-    'layout': {
-        'visibility': 'visible'
-    },
-      "paint": {
-        'fill-color': {
-          property: 'SIZE_HA',
-          stops: [[0, '#e8e802'], [130222, '#ff9a2e'], [260443, '#f18604'], [520885.2, '#fc0303']]
-        }
+    paint: {
+      'fill-color': {
+        property: 'SIZE_HA',
+        stops: [[0, '#e8e802'], [130222, '#ff9a2e'], [260443, '#f18604'], [520885.2, '#fc0303']]
+      }
     }
-  });
+  }, 'admin-2-boundaries-dispute');
 });
 
 </script>

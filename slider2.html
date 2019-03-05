@@ -87,26 +87,26 @@ var map = new mapboxgl.Map({
   center: [-124.063953, 54.765010], // initial map center in [lon, lat]
   zoom: 4.72
 });
-map.on('load', function() {
-  map.addSource('Fires', {
-      type: 'fill',
-      url: 'mapbox://andersonfranklin.0lc3tdlp'
-  });
+
+map.on('load', function () {
   map.addLayer({
-      'id': 'Fires',
-      'type': 'fill',
-      'source': 'Fires',
-      'layout': {
-          'visibility': 'visible'
-      },
-      'paint': {
+    "id": "bc-fires",
+    "type": "fill",
+    "source": {
+      type: 'vector',
+      url: 'mapbox://andersonfranklin.0lc3tdlp'
+    },
+    "source-layer": "bcfires-5fuus9",
+    'layout': {
+        'visibility': 'visible'
+    },
+      "paint": {
         'fill-color': {
           property: 'SIZE_HA',
           stops: [[0, '#e8e802'], [130222, '#ff9a2e'], [260443, '#f18604'], [520885.2, '#fc0303']]
         }
-      },
-      'source-layer': 'bcfires-5fuus9'
-  }, 'admin-2-boundaries-dispute');
+    }
+  });
 });
 
 </script>

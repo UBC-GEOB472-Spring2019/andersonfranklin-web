@@ -89,7 +89,7 @@ var map = new mapboxgl.Map({
 });
 map.on('load', function() {
   map.addSource('Fires', {
-      type: 'fill',
+      type: 'vector',
       url: 'mapbox://andersonfranklin.0lc3tdlp'
   });
   map.addLayer({

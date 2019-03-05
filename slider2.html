@@ -46,6 +46,25 @@ a {
   padding: 10px 20px;
   background-color: white;
 }
+.session {
+  margin-bottom: 20px;
+}
+
+.row {
+  height: 12px;
+  width: 100%;
+}
+
+.colors {
+  background: linear-gradient(to right, ##e8e802, ##ff9a2e, ##f18604, ##fc0303);
+  margin-bottom: 5px;
+}
+
+.label {
+  width: 15%;
+  display: inline-block;
+  text-align: center;
+}
 
 </style>
 
@@ -53,6 +72,17 @@ a {
 <div id='console'>
   <h1>Fires in BC</h1>
   <p>Data: <a href='http://cwfis.cfs.nrcan.gc.ca/datamart/metadata/nfdbpoly'>National Fire Database - Agency Provided Fire Perimeters</a></p>
+  <div class='session'>
+    <h2>Fire Size in HA</h2>
+    <div class='row colors'>
+    </div>
+    <div class='row labels'>
+      <div class='label'>0</div>
+      <div class='label'>130000</div>
+      <div class='label'>260000</div>
+      <div class='label'>520000+</div>
+    </div>
+  </div>
 </div>
 </body>
 
@@ -81,7 +111,7 @@ map.on('load', function() {
       'paint': {
         'fill-color': {
           property: 'SIZE_HA',
-          stops: [[0, '#e8e802'], [130222, 'ff9a2e'], [260443, 'f18604'], [520885.2, 'fc0303']]
+          stops: [[0, '#e8e802'], [130222, '#ff9a2e'], [260443, '#f18604'], [520885.2, '#fc0303']]
         }
       },
       'source-layer': 'bcfires-5fuus9'

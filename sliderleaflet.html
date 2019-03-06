@@ -62,7 +62,7 @@ var topoTiles = L.tileLayer(
 
                 		$.getJSON("https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/bcfires4326.geojson",
                               function(data){
-                    						// Once UBC trees GeoJSON layer is loaded
+                    						// Once BC Fires layer is loaded
                       					// Then add it to the map
                     						L.geoJSON(data, {
                    								  pointToLayer: function (feature, latlng) {
@@ -71,7 +71,7 @@ var topoTiles = L.tileLayer(
                                                        firestyle
                                                      );
                     							                },
-                                    onEachFeature: onEachTree
+                                    onEachFeature: onEachFire
                                   }
                                 ).addTo(map);});
 

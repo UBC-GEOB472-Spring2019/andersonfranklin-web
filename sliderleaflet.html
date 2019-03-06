@@ -45,6 +45,36 @@ var topoTiles = L.tileLayer(
                   }
                 ).addTo(map);
 
+                var firestyle = {
+                    	fillColor: "#fc0303",
+                    	color: "#fc0303",
+                    	weight: 0.5,
+                    	opacity: 0.7,
+                    	fillOpacity: 0.4
+                		};
+
+                function onEachFire(feature, layer) {
+                       // does this fire have a property named SIZE_HA?
+                       if (feature.properties && feature.properties.SIZE_HA) {
+                          layer.bindTooltip(feature.properties.SIZE_HA);
+                       }
+                    }
+
+                		$.getJSON("https://ubc-geob472-spring2019.github.io/andersonfranklin-web/bcfires4326.geojson",
+                              function(data){
+                    						// Once UBC trees GeoJSON layer is loaded
+                      					// Then add it to the map
+                    						L.geoJSON(data, {
+                   								  pointToLayer: function (feature, latlng) {
+                        							               return L.circleMarker(
+                                                       latlng,
+                                                       firestyle
+                                                     );
+                    							                },
+                                    onEachFeature: onEachTree
+                                  }
+                                ).addTo(map);});
+
 </script>
 </body>
 </html>

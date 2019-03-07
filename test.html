@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>t2</title>
+  <title>t</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
@@ -117,8 +117,17 @@ map.on('load', function() {
         520885.2, '#fc0303'
         ],
       },
-      'filter': ['==', ['number', ['get', 'YEAR']], 2016],
     })
+  });
+
+  document.getElementById('slider').addEventListener('input', function(e) {
+    var year = parseInt(e.target.value);
+    // update the map
+    map.setFilter('fire-polygons', ['==', ['number', ['get', 'YEAR']], year]);
+
+
+    // update text in the UI
+    document.getElementById('active-year').innerText = year;
   });
 
   </script>

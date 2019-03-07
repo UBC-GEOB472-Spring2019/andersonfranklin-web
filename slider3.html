@@ -201,7 +201,7 @@ map.on('load', function() {
         // Create a month property value based on time
         // used to filter against.
         data.features = data.features.map(function(d) {
-            d.properties.YEAR = new Date(d.properties.time).getYEAR();
+            d.properties.YEAR = new Date(d.properties.YEAR).getYEAR();
             return d;
         });
 

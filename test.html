@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>t</title>
+  <title>t2</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
@@ -98,6 +98,7 @@ map.on('load', function() {
       'id': 'fire-polygons',
       'type': 'fill',
       'source': 'fires',
+      'source-layer':'bcfires3-25p6r5',
       'paint': {
         'fill-color': [
         'interpolate',
@@ -107,9 +108,8 @@ map.on('load', function() {
         130222, '#ff9a2e',
         260443, '#f18604',
         520885.2, '#fc0303'
-        ],
+        ]
       }
-      'source-layer':'bcfires3-25p6r5'
     })
   });
 

@@ -206,8 +206,8 @@ map.on('load', function() {
         });
 
         map.addSource('fires', {
-            'type': 'geojson',
-            'loadURL': "https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/bcfires4326.geojson"
+            'type': 'vector',
+            'url': "mapbox://andersonfranklin.54ucp4rj"
         });
 
         map.addLayer({
@@ -225,6 +225,7 @@ map.on('load', function() {
               520885.2, '#fc0303'
               ],
             }
+            'source-layer':'bcfires3-25p6r5'
         });
 
         map.addLayer({
@@ -239,6 +240,7 @@ map.on('load', function() {
             'paint': {
                 'text-color': 'rgba(0,0,0,0.5)'
             }
+            'source-layer':'bcfires3-25p6r5'
         });
 
         // Set filter to first year

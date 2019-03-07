@@ -15,7 +15,6 @@
   <script src="leaflet/leaflet.js"></script>
   <script src="../dist/leaflet-slider.js"></script>
   <script src="SliderControl.js"></script>
-  <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8" />
 </head>
@@ -45,12 +44,21 @@ var topoTiles = L.tileLayer(
                   }
                 ).addTo(map);
 
-                var firestyle = {
-                    	fillColor: "#fc0303",
+                var firelayer = L.geoJson("https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/bcfires4326.geojson");
+                var sliderControl = L.control.sliderControl({position: "topright", layer: firelayer});
+
+map.addControl(sliderControl);
+
+
+sliderControl.startSlider();
+
+$('#slider-timestamp').html(options.markers[ui.value].feature.properties.time.substr(1917, 2017));
+
+
+                var style = {
                     	color: "#fc0303",
                     	weight: 0.5,
-                    	opacity: 0.7,
-                    	fillOpacity: 0.4
+                      opacity: 0.4
                 		};
 
                 function onEachFire(feature, layer) {
@@ -66,7 +74,7 @@ var topoTiles = L.tileLayer(
                       					// Then add it to the map
                     						L.geoJSON(data, {
                    								  pointToLayer: function (feature, latlng) {
-                        							               return L.firestyle(
+                        							               return L.style(
                                                        latlng,
                                                        firestyle
                                                      );

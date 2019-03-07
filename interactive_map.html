@@ -62,6 +62,7 @@ a {
 </style>
 
 <div id='map'></div>
+<!-- the console div contains both the legend and the slider-->
 <div id='console'>
   <h1>Fires in BC</h1>
   <p>Data: <a href='http://cwfis.cfs.nrcan.gc.ca/datamart/metadata/nfdbpoly'>National Fire Database - Agency Provided Fire Perimeters</a></p>
@@ -79,6 +80,7 @@ a {
     </div>
     <div class='session' id='sliderbar'>
       <h2>Year: <label id='active-year'>1917</label></h2>
+      <!-- the inputs for the slider include min and max which were set to the corresponding values for year in the dataset-->
       <input id='slider' class='row' type='range' min='1917' max='2017' step='1' value='1917' />
     </div>
   </div>
@@ -117,20 +119,20 @@ map.on('load', function() {
         130222, '#ff9a2e',
         260443, '#f18604',
         520885.2, '#fc0303'
-        ],
+      ],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
       },
-      'filter': ['==', ['number', ['get', 'YEAR']], 1917]
+      'filter': ['==', ['number', ['get', 'YEAR']], 1917]//This filter sets the map to load with the default of showing only data from 1917
     })
   });
 
   document.getElementById('slider').addEventListener('input', function(e) {
     var year = parseInt(e.target.value);
-    // update the map
+    //This variable is used to represent the year, which is input from the year corresponding to the position of the slider
     map.setFilter('fire-polygons', ['==', ['number', ['get', 'YEAR']], year]);
+    //This function sets the data filter and updates the map whenever the position of the slider is changed
 
-
-    // update text in the UI
     document.getElementById('active-year').innerText = year;
+    //This function updates the year displayed directly above the time slider
   });
 
   </script>

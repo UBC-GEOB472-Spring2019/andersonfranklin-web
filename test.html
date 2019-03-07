@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>t1</title>
+  <title>t2</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
@@ -89,20 +89,19 @@ var map = new mapboxgl.Map({
 });
 
 map.on('load', function() {
-  map.addSource('fires', {
-      'type': 'vector',
-      'url': "mapbox://andersonfranklin.54ucp4rj"
-  });
 
   map.addLayer({
+      'source': {
+        type: 'vector',
+        url: 'mapbox://mapbox.mapbox-terrain-v2'
+      }
       'id': 'fire-polygons',
       'type': 'fill',
-      'source': 'fires',
       'source-layer':'bcfires3-25p6r5',
       'paint': {
         'fill-color':  '#fc0303',
-      },
-    })
+      }
+    });
   });
 
   </script>

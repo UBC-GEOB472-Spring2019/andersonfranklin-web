@@ -88,31 +88,11 @@ var map = new mapboxgl.Map({
   zoom: 4.72
 });
 
-map.on('load', function () {
+var myLayer = L.mapbox.featureLayer()
+  .loadURL('https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/bcfires4326.geojson')
+  .addTo(map);
 
-  map.addSource('fires', {
-      'type': 'geojson',
-      data: "https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/bcfires4326.geojson"
-  });
+  </script>
 
-  map.addLayer({
-    'id': 'bc-fires',
-    'type': 'fill',
-    'source': 'fires'
-    'paint': {
-      'fill-color': [
-      'interpolate',
-      ['linear'],
-      ['number', ['get', 'SIZE_HA']],
-      0, '#e8e802',
-      130222, '#ff9a2e',
-      260443, '#f18604',
-      520885.2, '#fc0303'
-      ],
-    }
-  }, 'admin-2-boundaries-dispute')
-});
-
-</script>
-</body>
-</html>
+  </body>
+  </html>

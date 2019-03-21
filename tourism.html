@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Tourism GDP</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+}
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+h1 {
+  font-size: 20px;
+  line-height: 30px;
+}
+h2 {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+a {
+  text-decoration: none;
+  color: #2dc4b2;
+}
+#console {
+  position: absolute;
+  top: 10px;
+  right: 60px;
+  width: 240px;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: white;
+}
+.session {
+  margin-bottom: 20px;
+}
+.row {
+  height: 12px;
+  width: 100%;
+}
+.colors {
+  background-color: #c9c9c9 10%;
+  background:
+  linear-gradient(
+    to right, #e9f7e3, #277742);
+  margin-bottom: 5px;
+}
+.label {
+  width: 15%;
+  display: inline-block;
+  text-align: center;
+}
+</style>
+
+<div id='map'></div>
+<!-- the console div contains both the legend and the radio buttons-->
+<div id='console'>
+  <h1>Tourism Contribution to GDP</h1>
+  <div class='session'>
+    <h2>Tourism Contribution per 1000$ of GDP</h2>
+    <div class='row colors'>
+    </div>
+    <div class='row labels'>
+      <div class='label'>No Data</div>
+      <div class='label'>0.68</div>
+      <div class='label'>12</div>
+      <div class='label'>25</div>
+      <div class='label'>43</div>
+      <div class='label'>80+</div>
+    </div>
+    <div class='session' id='sliderbar'>
+      <h2>Year: <label id='active-year'>1917</label></h2>
+      <!-- the inputs for the slider include min and max which were set to the corresponding values for year in the dataset-->
+      <input id='slider' class='row' type='range' min='1917' max='2017' step='1' value='1917' />
+    </div>
+  </div>
+</div>
+</body>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg';
+var map = new mapboxgl.Map({
+  container: 'map', // container element id
+  style: 'mapbox://styles/andersonfranklin/cjsvefczs6s2r1fmzcbp5kbcm',
+  center: [-124.063953, 54.765010], // initial map center in [lon, lat]
+  zoom: 4.72
+});
+
+map.on('load', function() {
+  map.addSource('fires', {
+      type: 'vector',
+      url: 'mapbox://andersonfranklin.54ucp4rj'
+  });
+
+  map.addLayer({
+      'id': 'fire-polygons',
+      'source': 'fires',
+      'type': 'fill',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'source-layer':'bcfires4326',
+      'paint': {
+        'fill-color': [
+        'interpolate',
+        ['linear'],
+        ['number', ['get', 'SIZE_HA']],
+        0, '#e8e802',
+        130222, '#ff9a2e',
+        260443, '#f18604',
+        520885.2, '#fc0303'
+      ],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
+      },
+      'filter': ['==', ['number', ['get', 'YEAR']], 1917]//This filter sets the map to load with the default of showing only data from 1917
+    })
+  });
+
+  document.getElementById('slider').addEventListener('input', function(e) {
+    var year = parseInt(e.target.value);
+    //This variable is used to represent the year, which is input from the year corresponding to the position of the slider
+    map.setFilter('fire-polygons', ['==', ['number', ['get', 'YEAR']], year]);
+    //This function sets the data filter and updates the map whenever the position of the slider is changed
+
+    document.getElementById('active-year').innerText = year;
+    //This function updates the year displayed directly above the time slider
+  });
+
+  </script>
+
+  </body>
+  </html>

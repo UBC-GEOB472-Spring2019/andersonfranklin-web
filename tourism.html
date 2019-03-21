@@ -97,32 +97,29 @@ var map = new mapboxgl.Map({
 });
 
 map.on('load', function() {
-  map.addSource('fires', {
+  map.addSource('tourismPoly', {
       type: 'vector',
-      url: 'mapbox://andersonfranklin.54ucp4rj'
+      url: 'mapbox://andersonfranklin.5yid519l'
   });
 
   map.addLayer({
-      'id': 'fire-polygons',
-      'source': 'fires',
+      'id': 'GDP',
+      'source': 'tourismPoly',
       'type': 'fill',
       'layout': {
           'visibility': 'visible'
       },
-      'source-layer':'bcfires4326',
+      'source-layer':'tourism_gdp-8a9sx0',
       'paint': {
         'fill-color': [
         'interpolate',
         ['linear'],
-        ['number', ['get', 'SIZE_HA']],
-        0, '#e8e802',
-        130222, '#ff9a2e',
-        260443, '#f18604',
-        520885.2, '#fc0303'
-      ],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
+        ['number', ['get', 'TourismGDP']],
+        0.68, '#bae4b3',
+        25, '#74c476',
+        43, '#31a354',
+        80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
       },
-      'filter': ['==', ['number', ['get', 'YEAR']], 1917]//This filter sets the map to load with the default of showing only data from 1917
-    })
   });
 
   document.getElementById('slider').addEventListener('input', function(e) {

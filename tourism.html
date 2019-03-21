@@ -121,17 +121,7 @@ map.on('load', function() {
         80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
       },
   });
-
-  document.getElementById('slider').addEventListener('input', function(e) {
-    var year = parseInt(e.target.value);
-    //This variable is used to represent the year, which is input from the year corresponding to the position of the slider
-    map.setFilter('fire-polygons', ['==', ['number', ['get', 'YEAR']], year]);
-    //This function sets the data filter and updates the map whenever the position of the slider is changed
-
-    document.getElementById('active-year').innerText = year;
-    //This function updates the year displayed directly above the time slider
-  });
-
+});
   </script>
 
   </body>

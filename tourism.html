@@ -32,13 +32,24 @@ h2 {
 }
 h3 {
   font-size: 10px;
-  line-height: 10px;
+  line-height: 14px;
   margin-bottom: 10px;
+}
+h4 {
+  font-size: 12px;
+  line-height: 18px;
 }
 a {
   text-decoration: none;
   color: #2dc4b2;
 }
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
 #console {
   position: absolute;
   top: 10px;
@@ -65,10 +76,7 @@ a {
   display: inline-block;
   text-align: left;
 }
-.mapboxgl-popup {
-  max-width: 400px;
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
+
 </style>
 
 <div id='map'></div>
@@ -128,8 +136,7 @@ map.on('load', function() {
   }, 'road-label');
 
   var popup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false
+    closeButton: false
   });
 
 
@@ -138,16 +145,22 @@ map.on('load', function() {
     map.getCanvas().style.cursor = 'pointer';
 
     var coordinates = e.features[0].geometry.coordinates.slice();
-    var feature = e.features[0].properties.TourismGDP;
+    var popupname = e.features[0].properties.NAME;
+    var popupvalue = e.features[0].properties.TourismGDP
 
 
     // Populate the popup and set its coordinates
     // based on the feature found.
     popup.setLngLat(e.LngLat)
+      .setHTML(popupname + '<p>' + popupvalue + '</p>')
       .setText(feature.properties.TourismGDP)
       .addTo(map);
   });
 
+  map.on('mouseleave', 'GDP', function() {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
 
 
 

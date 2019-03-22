@@ -6,21 +6,21 @@
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+      <style>
+          body { margin:0; padding:0; font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif; }
+          #map { position:absolute; top:0; bottom:0; width:100%; }
+      </style>
 </head>
 <body>
 
 <style>
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+
+.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
-#map {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
+
+
 h1 {
   font-size: 20px;
   line-height: 30px;
@@ -42,11 +42,6 @@ h4 {
 a {
   text-decoration: none;
   color: #2dc4b2;
-}
-
-.mapboxgl-popup {
-  max-width: 400px;
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 
 #console {
@@ -124,6 +119,7 @@ map.on('load', function() {
 
   var popup = new mapboxgl.Popup({
     closeButton: false
+    closeOnClick: false
   });
 
 
@@ -132,13 +128,13 @@ map.on('load', function() {
     map.getCanvas().style.cursor = 'pointer';
 
     var coordinates = e.features[0].geometry.coordinates.slice();
-    var feature = e.features[0].properties.TourismGDP;
+    var TourismGDP = e.features[0].properties.TourismGDP;
 
 
     // Populate the popup and set its coordinates
     // based on the feature found.
-    popup.setLngLat(e.LngLat)
-      .setHTML(feature)
+    popup.setLngLat(coordinates)
+      .setHTML(TourismGDP)
       .addTo(map);
   });
 

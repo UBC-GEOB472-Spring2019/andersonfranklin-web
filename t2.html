@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>T2</title>
+  <title>T1</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
@@ -186,7 +186,7 @@ map.on('load', function() {
 
     // Display a popup with the name of the county
     popup.setLngLat(e.lngLat)
-      .setText(feature.properties.COUNTY)
+      .setText(feature.properties.NAME + ', $' + feature.properties.TourismGDP)
       .addTo(map);
   });
 

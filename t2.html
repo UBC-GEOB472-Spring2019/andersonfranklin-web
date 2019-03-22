@@ -190,7 +190,7 @@ map.on('load', function() {
       .addTo(map);
   });
 
-  map.on('mouseleave', 'counties', function() {
+  map.on('mouseleave', 'GDP', function() {
     map.getCanvas().style.cursor = '';
     popup.remove();
     map.setFilter('counties-highlighted', ['in', 'COUNTY', '']);

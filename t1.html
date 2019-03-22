@@ -109,8 +109,8 @@ var map = new mapboxgl.Map({
 
 map.on('load', function() {
   map.addSource('tourismPoly', {
-      type: 'vector',
-      url: 'mapbox://andersonfranklin.5yid519l'
+      type: 'geojson',
+      url: 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourismgdp.geojson'
   });
 
   map.addLayer({
@@ -120,17 +120,8 @@ map.on('load', function() {
       'layout': {
           'visibility': 'visible'
       },
-      'source-layer':'tourism_gdp-8a9sx0',
       'paint': {
-        'fill-color': [
-        'interpolate',
-        ['linear'],
-        ['number', ['get', 'TourismGDP']],
-        0.68, '#bae4b3',
-        25, '#74c476',
-        43, '#31a354',
-        80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
-      },
+        'fill-color': '#bae4b3'},
       'filter': ['has', 'TourismGDP'],
   }, 'road-label');
 
@@ -144,7 +135,7 @@ map.on('load', function() {
     map.getCanvas().style.cursor = 'pointer';
 
     var coordinates = e.features[0].geometry.coordinates.slice();
-    var feature = e.features[0].TourismGDP;
+    var feature = e.features[0].properties.TourismGDP;
 
 
     // Populate the popup and set its coordinates

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>T7</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+<style>
+body {
+  margin:0;
+  padding:0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+}
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+.map-overlay {
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  background-color: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+  border-radius: 3px;
+  position: absolute;
+  width: 25%;
+  top: 10px;
+  left: 10px;
+  padding: 10px;
+  display: none;
+}
+
+h1 {
+  font-size: 20px;
+  line-height: 30px;
+}
+h2 {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+h3 {
+  font-size: 10px;
+  line-height: 14px;
+  margin-bottom: 10px;
+}
+h4 {
+  font-size: 12px;
+  line-height: 18px;
+}
+a {
+  text-decoration: none;
+  color: #2dc4b2;
+}
+#console {
+  position: absolute;
+  top: 10px;
+  right: 60px;
+  width: 240px;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: white;
+}
+.session {
+  margin-bottom: 15px;
+}
+.row {
+  height: 12px;
+  width: 100%;
+}
+.colors {
+  background:
+  linear-gradient(to right, #edf8e9, #bae4b3, #74c476, #31a354, #277742);
+  margin-bottom: 5px;
+}
+.label {
+  width: 15%;
+  display: inline-block;
+  text-align: left;
+}
+
+</style>
+
+<div id='map'></div>
+<!-- the console div contains both the legend and the radio buttons-->
+<div id='map-overlay' class='map-overlay'></div>
+<div id='console'>
+  <h1>Global Economic Impact of Tourism</h1>
+  <div class='session'>
+    <h2>Tourism Contribution per 1000$ GDP</h2>
+      <h3>White areas contain no data</h3>
+    <div class='row colors'>
+    </div>
+    <div class='row labels'>
+      <div class='label'>0</div>
+      <div class='label'>12</div>
+      <div class='label'>25</div>
+      <div class='label'>43</div>
+      <div class='label'>80</div>
+      <div class='label'>>80</div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg';
+var map = new mapboxgl.Map({
+  container: 'map', // container element id
+  style: 'mapbox://styles/andersonfranklin/cjtj5ytv919s01gocr78i30j1',
+  center: [9.112,34.171], // initial map center in [lon, lat]
+  zoom: 1.42
+});
+
+var overlay = document.getElementById('map-overlay');
+
+// Create a popup, but don't add it to the map yet.
+var popup = new mapboxgl.Popup({
+  closeButton: false
+});
+
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourismgdp.geojson';
+
+map.on('load', function() {
+  map.addSource('tourismPoly', { type: 'geojson', data: url });
+
+  map.addLayer({
+      'id': 'GDP',
+      'source': 'tourismPoly',
+      'type': 'fill',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'paint': {
+        'fill-color': [
+        'interpolate',
+        ['linear'],
+        ['number', ['get', 'TourismGDP']],
+        0.68, '#bae4b3',
+        25, '#74c476',
+        43, '#31a354',
+        80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
+      },
+      'filter': ['>', ['number', ['get', 'TourismGDP']], 0]
+  }, 'admin-1-boundary-bg');
+
+  map.addLayer({
+      'id': 'GDP-highlighted',
+      'source': 'tourismPoly',
+      'type': 'fill',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'paint': {
+        'fill-color': '#dd1c77',
+        'fill-opacity': 0.75
+      },
+      'filter': ["in", "NAME", ""]
+  }, 'admin-1-boundary-bg');
+
+  map.on('mousemove', 'counties', function(e) {
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = 'pointer';
+
+    // Single out the first found feature.
+    var feature = e.features[0];
+
+    overlay.innerHTML = '';
+
+    var country = document.createElement('strong');
+    country.textContent = feature.properties.NAME;
+
+    var highlighted = document.createElement('div');
+    highlighted.textContent = highlighted.toLocaleString() + '$ per 1000$ GDP';
+
+    overlay.appendChild(country);
+    overlay.appendChild(highlighted);
+    overlay.style.display = 'block';
+
+    //highlight the country under the mouse
+    map.setFilter('GDP-highlighted', ['in', 'NAME', feature.properties.NAME]);
+
+    // Display a popup with the name of the county
+    popup.setLngLat(e.lngLat)
+      .setText(feature.properties.COUNTY)
+      .addTo(map);
+  });
+  
+});
+</script>
+</body>
+</html>

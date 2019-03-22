@@ -174,7 +174,7 @@ map.on('load', function() {
     country.textContent = feature.properties.NAME;
 
     var highlighted = document.createElement('div');
-    highlighted.textContent = highlighted.toLocaleString() + '$ per 1000$ GDP';
+    highlighted.textContent = feature.properties.TourismGDP.toLocaleString() + '$ per 1000$ GDP';
 
     overlay.appendChild(country);
     overlay.appendChild(highlighted);

@@ -65,6 +65,10 @@ a {
   display: inline-block;
   text-align: left;
 }
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
 </style>
 
 <div id='map'></div>
@@ -120,10 +124,35 @@ map.on('load', function() {
         43, '#31a354',
         80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
       },
-      'filter': ['has', 'TourismGDP']
+      'filter': ['has', 'TourismGDP'],
   }, 'road-label');
-});
-  </script>
 
-  </body>
-  </html>
+  var popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+
+
+  map.on('mouseenter', 'GDP', function(e) {
+    // Change the cursor style as a UI indicator.
+    map.getCanvas().style.cursor = 'pointer';
+
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    var feature = e.features[0].properties.TourismGDP;
+
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    popup.setLngLat(e.LngLat)
+      .setText(feature.properties.TourismGDP)
+      .addTo(map);
+  });
+
+
+
+
+});
+</script>
+
+</body>
+</html>

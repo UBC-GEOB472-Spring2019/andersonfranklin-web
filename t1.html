@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>T5</title>
+  <title>T6</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
@@ -69,7 +69,7 @@ a {
   margin-bottom: 5px;
 }
 .label {
-  width: 18%;
+  width: 20%;
   display: inline-block;
   text-align: left;
 }
@@ -118,7 +118,16 @@ map.on('load', function() {
           'visibility': 'visible'
       },
       'paint': {
-        'fill-color': '#bae4b3'},
+        'fill-color': [
+        'interpolate',
+        ['linear'],
+        ['number', ['get', 'TourismGDP']],
+        0.68, '#bae4b3',
+        25, '#74c476',
+        43, '#31a354',
+        80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
+      },
+      'filter': ['has', 'TourismGDP'],
   }, 'admin-1-boundary-bg');
 
   var popup = new mapboxgl.Popup({

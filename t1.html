@@ -129,7 +129,7 @@ var popup = new mapboxgl.Popup({
   closeButton: false
 });
 
-var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats.geojson';
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats2.geojson';
 
 map.on('load', function() {
   map.addSource('tourismPoly', { type: 'geojson', data: url });
@@ -151,7 +151,7 @@ map.on('load', function() {
         43, '#31a354',
         80, '#277742'],
       },
-      'filter': ['>', ['number', ['get', 'TourismGDP']], 0]
+      'filter': ['>', ['number', ['get', 'Rank']], 0]
   }, 'admin-1-boundary-bg');
 
   map.addLayer({
@@ -198,7 +198,7 @@ map.on('load', function() {
 
     // Display a popup with the name of the county
     popup.setLngLat(e.lngLat)
-      .setText(feature.properties.NAME)
+      .setText(feature.properties.TourismGDP + '$, Global Rank: ' + feature.properties.Rank)
       .addTo(map);
   });
 

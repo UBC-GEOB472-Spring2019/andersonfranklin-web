@@ -175,10 +175,27 @@ map.on('load', function() {
     country.textContent = feature.properties.NAME;
 
     var highlighted = document.createElement('div');
-    highlighted.textContent = feature.properties.TourismGDP.toLocaleString() + '$ per 1000$ GDP';
+    highlighted.textContent = '<b>$ per 1000$ GDP: </b>' + feature.properties.TourismGDP.toLocaleString();
+
+    var population = document.createElement('div');
+    population.textContent = '<b>Population: </b>' + feature.properties.PopAmount;
+
+    var percent = document.createElement('div');
+    percent.textContent = '<b>Percent of total exports: </b>' + feature.properties.PCTExports;
+
+    var receipts = document.createElement('div');
+    population.textContent = '<b>Visitor Expenditure: </b>' + feature.properties.ReceiptsPC;
+
+    var depart = document.createElement('div');
+    population.textContent = '<b>International Departures per 1000 people: </b>' + feature.properties.IntlDepart;
 
     overlay.appendChild(country);
+    overlay.appendChild(population);
     overlay.appendChild(highlighted);
+    overlay.appendChild(percent);
+    overlay.appendChild(receipts);
+    overlay.appendChild(depart);
+
     overlay.style.display = 'block';
 
     //highlight the country under the mouse

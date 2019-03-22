@@ -144,7 +144,7 @@ map.on('load', function() {
     map.getCanvas().style.cursor = 'pointer';
 
     var coordinates = e.features[0].geometry.coordinates.slice();
-    var feature = e.features[0].properties.TourismGDP;
+    var feature = e.features[0].TourismGDP;
 
 
     // Populate the popup and set its coordinates

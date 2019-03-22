@@ -145,15 +145,13 @@ map.on('load', function() {
     map.getCanvas().style.cursor = 'pointer';
 
     var coordinates = e.features[0].geometry.coordinates.slice();
-    var popupname = e.features[0].properties.NAME;
-    var popupvalue = e.features[0].properties.TourismGDP
+    var feature = e.features[0].properties.TourismGDP;
 
 
     // Populate the popup and set its coordinates
     // based on the feature found.
     popup.setLngLat(e.LngLat)
-      .setHTML(popupname + '<p>' + popupvalue + '</p>')
-      .setText(feature.properties.TourismGDP)
+      .setHTML(feature)
       .addTo(map);
   });
 

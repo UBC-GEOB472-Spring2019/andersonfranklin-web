@@ -106,12 +106,10 @@ var map = new mapboxgl.Map({
   center: [9.112,34.171], // initial map center in [lon, lat]
   zoom: 1.42
 });
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourismgdp.geojson';
 
 map.on('load', function() {
-  map.addSource('tourismPoly', {
-      type: 'geojson',
-      url: 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourismgdp.geojson'
-  });
+  map.addSource('tourismPoly', { type: 'geojson', data: url });
 
   map.addLayer({
       'id': 'GDP',
@@ -122,7 +120,6 @@ map.on('load', function() {
       },
       'paint': {
         'fill-color': '#bae4b3'},
-      'filter': ['has', 'TourismGDP'],
   }, 'road-label');
 
   var popup = new mapboxgl.Popup({

@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>T2</title>
+  <title>T1</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
@@ -97,6 +97,7 @@ var map = new mapboxgl.Map({
   center: [9.112,34.171], // initial map center in [lon, lat]
   zoom: 1.42
 });
+
 var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourismgdp.geojson';
 
 map.on('load', function() {
@@ -124,13 +125,13 @@ map.on('load', function() {
     map.getCanvas().style.cursor = 'pointer';
 
     var coordinates = e.features[0].geometry.coordinates.slice();
-    var TourismGDP = e.features[0].properties.TourismGDP;
+    var feature = e.features[0].properties.TourismGDP;
 
 
     // Populate the popup and set its coordinates
     // based on the feature found.
     popup.setLngLat(coordinates)
-      .setHTML(TourismGDP)
+      .setHTML(feature)
       .addTo(map);
   });
 

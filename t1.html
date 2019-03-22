@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>T6</title>
+  <title>T7</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
@@ -127,7 +127,7 @@ map.on('load', function() {
         43, '#31a354',
         80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
       },
-      'filter': ['has', 'TourismGDP'],
+      filter: ['>', ['number', ['get', 'TourismGDP']], 0]
   }, 'admin-1-boundary-bg');
 
   var popup = new mapboxgl.Popup({

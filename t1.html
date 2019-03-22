@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>T7</title>
+  <title>T1</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
@@ -20,17 +20,13 @@ body {
   bottom: 0;
   width: 100%;
 }
-.mapboxgl-popup {
-  max-width: 400px;
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
 
 h1 {
-  font-size: 20px;
+  font-size: 21px;
   line-height: 30px;
 }
 h2 {
-  font-size: 14px;
+  font-size: 17.2px;
   line-height: 20px;
   margin-bottom: 10px;
 }
@@ -40,8 +36,9 @@ h3 {
   margin-bottom: 10px;
 }
 h4 {
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 17.2px;
+  line-height: 20px;
+  margin-bottom: 10px;
 }
 a {
   text-decoration: none;
@@ -50,8 +47,8 @@ a {
 #console {
   position: absolute;
   top: 10px;
-  right: 60px;
-  width: 240px;
+  right: 10px;
+  width: 300px;
   margin: 10px;
   padding: 10px 20px;
   background-color: white;
@@ -66,12 +63,24 @@ a {
 .colors {
   background:
   linear-gradient(to right, #edf8e9, #bae4b3, #74c476, #31a354, #277742);
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .label {
   width: 15%;
   display: inline-block;
   text-align: left;
+  margin-bottom: 15px;
+}
+.map-overlay{
+  font-size: 14px;
+  margin-top: 7.5px;
+  line-height:20px;
+  margin-bottom: 7.5px;
+}
+.legend-note{
+  font-size: 10px;
+  line-height: 14px;
+  margin-bottom: 5px;
 }
 
 </style>
@@ -79,12 +88,11 @@ a {
 <div id='map'></div>
 <!-- the console div contains both the legend and the radio buttons-->
 <div id='console'>
-  <h1>Global Economic Impact of Tourism</h1>
+  <h1>Economic Impact of Tourism</h1>
   <div class='session'>
     <h2>Tourism Contribution per 1000$ GDP</h2>
-      <h3>White areas contain no data</h3>
-    <div class='row colors'>
-    </div>
+    <div class = 'legend-note'>White areas contain no data</div>
+    <div class='row colors'></div>
     <div class='row labels'>
       <div class='label'>0</div>
       <div class='label'>12</div>
@@ -93,6 +101,14 @@ a {
       <div class='label'>80</div>
       <div class='label'>>80</div>
     </div>
+  </div>
+  <div class='map-overlay' id='map-overlay'>
+    <h4>Highlighted Country Information</h4>
+    <div><b>Population: </b><label id='population'></label></div>
+    <div><b>Tourism GDP Contribution/1000$: </b><label id='highlighted'></label></div>
+    <div><b>Percent of total exports: </b><label id='percent'></label></div>
+    <div><b>Visitor Expenditure: : </b><label id='receipts'></label></div>
+    <div><b>Departures per 1000 people: </b><label id='depart'></label></div>
   </div>
 </div>
 
@@ -106,7 +122,14 @@ var map = new mapboxgl.Map({
   zoom: 1.42
 });
 
-var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourismgdp.geojson';
+var overlay = document.getElementById('map-overlay');
+
+// Create a popup, but don't add it to the map yet.
+var popup = new mapboxgl.Popup({
+  closeButton: false
+});
+
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats.geojson';
 
 map.on('load', function() {
   map.addSource('tourismPoly', { type: 'geojson', data: url });
@@ -126,37 +149,64 @@ map.on('load', function() {
         0.68, '#bae4b3',
         25, '#74c476',
         43, '#31a354',
-        80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
+        80, '#277742'],
       },
-      filter: ['>', ['number', ['get', 'TourismGDP']], 0]
+      'filter': ['>', ['number', ['get', 'TourismGDP']], 0]
   }, 'admin-1-boundary-bg');
 
-  var popup = new mapboxgl.Popup({
-    closeButton: false,
-    closeOnClick: false
-  });
+  map.addLayer({
+      'id': 'GDP-highlighted',
+      'source': 'tourismPoly',
+      'type': 'fill',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'paint': {
+        "fill-outline-color": "#e7298a",
+        'fill-color': '#df65b0',
+        'fill-opacity': 0.60
+      },
+      'filter': ["in", "NAME", ""]
+  }, 'admin-1-boundary-bg');
 
-
-  map.on('mouseenter', 'GDP', function(e) {
+  map.on('mousemove', 'GDP', function(e) {
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = 'pointer';
 
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var feature = e.features[0].properties.TourismGDP;
+    // Single out the first found feature.
+    var feature = e.features[0];
+
+    var highlighted = document.getElementById('highlighted');
+    highlighted.textContent = feature.properties.TourismGDP + '$';
+
+    var percent = document.getElementById('percent');
+    percent.textContent = feature.properties.PCTExports;
+
+    var population = document.getElementById('population');
+    population.textContent = feature.properties.PopAmount;
+
+    var receipts = document.getElementById('receipts');
+    receipts.textContent = feature.properties.ReceiptsPC;
+
+    var depart = document.getElementById('depart');
+    depart.textContent = feature.properties.IntlDepart;
 
 
-    // Populate the popup and set its coordinates
-    // based on the feature found.
-    popup.setLngLat(coordinates)
-      .setHTML(feature)
+
+    //highlight the country under the mouse
+    map.setFilter('GDP-highlighted', ['in', 'NAME', feature.properties.NAME]);
+
+    // Display a popup with the name of the county
+    popup.setLngLat(e.lngLat)
+      .setText(feature.properties.NAME)
       .addTo(map);
   });
 
   map.on('mouseleave', 'GDP', function() {
     map.getCanvas().style.cursor = '';
     popup.remove();
+    map.setFilter('counties-highlighted', ['in', 'COUNTY', '']);
   });
-
 
 
 });

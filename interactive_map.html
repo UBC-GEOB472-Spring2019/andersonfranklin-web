@@ -165,7 +165,7 @@ map.on('load', function() {
     map.setFilter('highlighted', ['in', 'FIRE_ID', feature.properties.FIRE_ID]);
 
     popup.setLngLat(d.lngLat)
-    .setText(feature.properties.SIZE_HA + ' Thousand HA')
+    .setText(feature.properties.SIZE_HA + ' HA')
     .addTo(map);
   });
 

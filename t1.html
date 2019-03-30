@@ -20,27 +20,15 @@ body {
   bottom: 0;
   width: 100%;
 }
-.map-overlay {
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-  background-color: #fff;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-  border-radius: 3px;
-  position: absolute;
-  width: 20%;
-  top: 10px;
-  left: 10px;
-  padding: 10px;
-  display: none;
-}
 
 h1 {
-  font-size: 20px;
+  font-size: 21px;
   line-height: 30px;
 }
 h2 {
-  font-size: 14px;
+  font-size: 17.2px;
   line-height: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 h3 {
   font-size: 10px;
@@ -48,8 +36,9 @@ h3 {
   margin-bottom: 10px;
 }
 h4 {
-  font-size: 16px;
+  font-size: 15.5px;
   line-height: 20px;
+  margin-bottom: 4px;
 }
 a {
   text-decoration: none;
@@ -58,8 +47,8 @@ a {
 #console {
   position: absolute;
   top: 10px;
-  right: 60px;
-  width: 240px;
+  right: 10px;
+  width: 300px;
   margin: 10px;
   padding: 10px 20px;
   background-color: white;
@@ -74,26 +63,36 @@ a {
 .colors {
   background:
   linear-gradient(to right, #edf8e9, #bae4b3, #74c476, #31a354, #277742);
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .label {
   width: 15%;
   display: inline-block;
   text-align: left;
+  margin-bottom: 15px;
+}
+.map-overlay{
+  font-size: 13px;
+  margin-top: 7.5px;
+  line-height:20px;
+  margin-bottom: 7.5px;
+}
+.legend-note{
+  font-size: 10px;
+  line-height: 14px;
+  margin-bottom: 5px;
 }
 
 </style>
 
 <div id='map'></div>
 <!-- the console div contains both the legend and the radio buttons-->
-<div id='map-overlay' class='map-overlay'></div>
 <div id='console'>
-  <h1>Global Economic Impact of Tourism</h1>
+  <h1>Economic Impact of Tourism</h1>
   <div class='session'>
     <h2>Tourism Contribution per 1000$ GDP</h2>
-      <h3>White areas contain no data</h3>
-    <div class='row colors'>
-    </div>
+    <div class = 'legend-note'>White areas contain no data</div>
+    <div class='row colors'></div>
     <div class='row labels'>
       <div class='label'>0</div>
       <div class='label'>12</div>
@@ -102,6 +101,15 @@ a {
       <div class='label'>80</div>
       <div class='label'>>80</div>
     </div>
+  </div>
+  <div class='map-overlay' id='map-overlay'>
+    <h4>Highlighted Country Information</h4>
+    <div><b><label id='country'></label></b></div>
+    <div><b>Population: </b><label id='population'></label></div>
+    <div><b>Tourism GDP Contribution/1000$: </b><label id='highlighted'></label></div>
+    <div><b>Percent of total exports: </b><label id='percent'></label></div>
+    <div><b>Visitor Expenditure: : </b><label id='receipts'></label></div>
+    <div><b>Departures per 1000 people: </b><label id='depart'></label></div>
   </div>
 </div>
 
@@ -122,7 +130,7 @@ var popup = new mapboxgl.Popup({
   closeButton: false
 });
 
-var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats.geojson';
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats2.geojson';
 
 map.on('load', function() {
   map.addSource('tourismPoly', { type: 'geojson', data: url });
@@ -144,7 +152,8 @@ map.on('load', function() {
         43, '#31a354',
         80, '#277742'],
       },
-      'filter': ['>', ['number', ['get', 'TourismGDP']], 0]
+
+      'filter': ['>', ['number', ['get', 'Rank']], 0]
   }, 'admin-1-boundary-bg');
 
   map.addLayer({
@@ -169,43 +178,32 @@ map.on('load', function() {
     // Single out the first found feature.
     var feature = e.features[0];
 
-    overlay.innerHTML = '';
-
-    var country = document.createElement('');
+    var country = document.getElementById('country');
     country.textContent = feature.properties.NAME;
 
-    var highlighted = document.createElement('div');
-    highlighted.textContent = '$ per 1000$ GDP: ' + feature.properties.TourismGDP.toLocaleString();
-    if (typeof feature.properties.TourismGDP !== 'undefined'){
-      overlay.appendChild(highlighted)
-    };
+    var highlighted = document.getElementById('highlighted');
+    highlighted.textContent = feature.properties.TourismGDP + '$';
 
-    var percent = document.createElement('div');
-    percent.textContent = 'Percent of total exports: ' + feature.properties.PCTExports.toLocaleString();
+    var percent = document.getElementById('percent');
+    percent.textContent = feature.properties.PCTExports;
 
-    var population = document.createElement('div');
-    population.textContent = 'Population: ' + feature.properties.PopAmount;
+    var population = document.getElementById('population');
+    population.textContent = feature.properties.PopAmount;
 
-    var receipts = document.createElement('div');
-    receipts.textContent = 'Visitor Expenditure: ' + feature.properties.ReceiptsPC;
+    var receipts = document.getElementById('receipts');
+    receipts.textContent = feature.properties.ReceiptsPC;
 
-    var depart = document.createElement('div');
-    depart.textContent = 'International Departures per 1000 people: ' + feature.properties.IntlDepart.toLocaleString();
+    var depart = document.getElementById('depart');
+    depart.textContent = feature.properties.IntlDepart;
 
-    overlay.appendChild(country);
-    overlay.appendChild(percent);
-    overlay.appendChild(population);
-    overlay.appendChild(receipts);
-    overlay.appendChild(depart);
 
-    overlay.style.display = 'block';
 
     //highlight the country under the mouse
     map.setFilter('GDP-highlighted', ['in', 'NAME', feature.properties.NAME]);
 
     // Display a popup with the name of the county
     popup.setLngLat(e.lngLat)
-      .setText(feature.properties.NAME)
+      .setText(feature.properties.TourismGDP + '$, Global Rank: ' + feature.properties.Rank)
       .addTo(map);
   });
 
@@ -213,7 +211,6 @@ map.on('load', function() {
     map.getCanvas().style.cursor = '';
     popup.remove();
     map.setFilter('counties-highlighted', ['in', 'COUNTY', '']);
-    overlay.style.display = 'none';
   });
 
 

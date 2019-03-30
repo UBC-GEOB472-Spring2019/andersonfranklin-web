@@ -26,7 +26,7 @@ body {
   box-shadow: 0 1px 2px rgba(0,0,0,0.10);
   border-radius: 3px;
   position: absolute;
-  width: 20%;
+  width: 25%;
   top: 10px;
   left: 10px;
   padding: 10px;
@@ -48,8 +48,8 @@ h3 {
   margin-bottom: 10px;
 }
 h4 {
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 12px;
+  line-height: 18px;
 }
 a {
   text-decoration: none;
@@ -122,7 +122,7 @@ var popup = new mapboxgl.Popup({
   closeButton: false
 });
 
-var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats.geojson';
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourismgdp.geojson';
 
 map.on('load', function() {
   map.addSource('tourismPoly', { type: 'geojson', data: url });
@@ -171,33 +171,14 @@ map.on('load', function() {
 
     overlay.innerHTML = '';
 
-    var country = document.createElement('');
+    var country = document.createElement('strong');
     country.textContent = feature.properties.NAME;
 
     var highlighted = document.createElement('div');
-    highlighted.textContent = '$ per 1000$ GDP: ' + feature.properties.TourismGDP.toLocaleString();
-    if (typeof feature.properties.TourismGDP !== 'undefined'){
-      overlay.appendChild(highlighted)
-    };
-
-    var percent = document.createElement('div');
-    percent.textContent = 'Percent of total exports: ' + feature.properties.PCTExports.toLocaleString();
-
-    var population = document.createElement('div');
-    population.textContent = 'Population: ' + feature.properties.PopAmount;
-
-    var receipts = document.createElement('div');
-    receipts.textContent = 'Visitor Expenditure: ' + feature.properties.ReceiptsPC;
-
-    var depart = document.createElement('div');
-    depart.textContent = 'International Departures per 1000 people: ' + feature.properties.IntlDepart.toLocaleString();
+    highlighted.textContent = feature.properties.TourismGDP.toLocaleString() + '$ per 1000$ GDP';
 
     overlay.appendChild(country);
-    overlay.appendChild(percent);
-    overlay.appendChild(population);
-    overlay.appendChild(receipts);
-    overlay.appendChild(depart);
-
+    overlay.appendChild(highlighted);
     overlay.style.display = 'block';
 
     //highlight the country under the mouse
@@ -205,7 +186,7 @@ map.on('load', function() {
 
     // Display a popup with the name of the county
     popup.setLngLat(e.lngLat)
-      .setText(feature.properties.NAME)
+      .setText(feature.properties.NAME + ', $' + feature.properties.TourismGDP)
       .addTo(map);
   });
 

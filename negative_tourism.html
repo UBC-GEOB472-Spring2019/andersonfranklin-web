@@ -104,7 +104,23 @@ var map = new mapboxgl.Map({
   zoom: 1.42
 });
 
-var data = '';
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/largeairports.geojson';
+
+map.on('load', function() {
+  map.addSource('Airports', { type: 'geojson', data: url });
+
+  map.addLayer({
+      'id': 'Airport_point',
+      'source': 'Airports',
+      'type': 'vector',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'paint': {
+      },
+  }, 'admin-1-boundary-bg');
+});
+
 
 </script>
 </body>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>Negatives of Tourism</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+</head>
+<body>
+<style>
+body {
+  margin:0;
+  padding:0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+}
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+h1 {
+  font-size: 21px;
+  line-height: 30px;
+}
+h2 {
+  font-size: 17.2px;
+  line-height: 20px;
+  margin-bottom: 5px;
+}
+h3 {
+  font-size: 10px;
+  line-height: 14px;
+  margin-bottom: 10px;
+}
+h4 {
+  font-size: 15.5px;
+  line-height: 20px;
+  margin-bottom: 4px;
+}
+a {
+  text-decoration: none;
+  color: #2dc4b2;
+}
+#console {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 300px;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: white;
+}
+.session {
+  margin-bottom: 15px;
+}
+.row {
+  height: 12px;
+  width: 100%;
+}
+.colors {
+  background:
+  linear-gradient(to right, #edf8e9, #bae4b3, #74c476, #31a354, #277742);
+  margin-bottom: 10px;
+}
+.label {
+  width: 15%;
+  display: inline-block;
+  text-align: left;
+  margin-bottom: 15px;
+}
+.map-overlay{
+  font-size: 13px;
+  margin-top: 7.5px;
+  line-height:20px;
+  margin-bottom: 7.5px;
+}
+.legend-note{
+  font-size: 10px;
+  line-height: 14px;
+  margin-bottom: 5px;
+}
+
+</style>
+
+<div id='map'></div>
+<!-- the console div contains both the legend and the radio buttons-->
+<div id='console'>
+  <h1>Environmental Impacts of Tourism</h1>
+  <div class='session'>
+    <h2>Tourism Carbon Emissions</h2>
+  </div>
+</div>
+
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg';
+var map = new mapboxgl.Map({
+  container: 'map', // container element id
+  style: 'mapbox://styles/andersonfranklin/cjtj5ytv919s01gocr78i30j1',
+  center: [9.112,34.171], // initial map center in [lon, lat]
+  zoom: 1.42
+});
+
+var data = '';
+
+</script>
+</body>
+</html>

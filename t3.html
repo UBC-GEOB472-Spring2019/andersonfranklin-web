@@ -134,10 +134,10 @@ a {
     <div><b>Departures per 1000 people: </b><label id='depart'></label></div>
   </div>
   <div class='map-overlay'>
-    <button id='fly'>Fly</button>
     <fieldset>
       <input id='feature-filter' type='text' placeholder='Search for Rank' />
     </fieldset>
+    <button id='fly'>Search</button>
   </div>
 
 
@@ -160,10 +160,16 @@ var popup = new mapboxgl.Popup({
   closeButton: false
 });
 
-var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats2.geojson';
+var url2 = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats2.geojson';
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/centroids.geojson'
 
 map.on('load', function() {
-  map.addSource('tourismPoly', { type: 'geojson', data: url });
+  map.addSource('tourismPoly', { type: 'geojson', data: url2 });
+
+  map.addSource('centroids', {
+    type: 'geojson',
+    data: url
+  });
 
   map.addLayer({
       'id': 'GDP',
@@ -199,6 +205,18 @@ map.on('load', function() {
         'fill-opacity': 0.60
       },
       'filter': ["in", "NAME", ""]
+  }, 'admin-1-boundary-bg');
+
+  map.addLayer({
+      'id': 'centroid-points',
+      'source': 'centroids',
+      'type': 'circle',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'paint':{
+        'circle-opacity': 0,
+      }
   }, 'admin-1-boundary-bg');
 
   map.on('mousemove', 'GDP', function(e) {
@@ -240,19 +258,25 @@ map.on('load', function() {
   map.on('mouseleave', 'GDP', function() {
     map.getCanvas().style.cursor = '';
     popup.remove();
-    map.setFilter('counties-highlighted', ['in', 'COUNTY', '']);
+    map.setFilter('GDP-highlighted', ['in', 'GDP', '']);
   });
 
-  document.getElementById('fly').addEventListener('click', function () {
-    // Fly to a filtered location
 
-    var target = document.getElementById('feature-filter');
-    target.textContent = feature.properties.Rank;
-    map.flyTo({
-      center: target,
-      zoom: 9,
-      });
+  function updateInt (q) {
+    intSearched = parseInt(q.target.value)
+  };
+  document.getElementById('feature-filter').addEventListener('change',function(f){
+    IntSearched = parseInt(f.target.value);
+    filtered = map.querySourceFeatures('centroids',{
+      filter: ['==', ['number', ['get', 'Rank']], IntSearched],
     });
+    map.flyTo({
+      center: filtered[0].geometry.coordinates,
+      zoom: 7
+    });
+  });
+
+
 
 
 });

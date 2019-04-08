@@ -2,17 +2,16 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>Tourism GDP</title>
+  <title>T1</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
 </head>
 <body>
-
 <style>
 body {
-  margin: 0;
-  padding: 0;
+  margin:0;
+  padding:0;
   font-family: 'Helvetica Neue', Helvetica, Arial, Sans-serif;
 }
 #map {
@@ -21,14 +20,15 @@ body {
   bottom: 0;
   width: 100%;
 }
+
 h1 {
-  font-size: 20px;
+  font-size: 21px;
   line-height: 30px;
 }
 h2 {
-  font-size: 14px;
+  font-size: 17.2px;
   line-height: 20px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 h3 {
   font-size: 10px;
@@ -36,24 +36,19 @@ h3 {
   margin-bottom: 10px;
 }
 h4 {
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 15.5px;
+  line-height: 20px;
+  margin-bottom: 4px;
 }
 a {
   text-decoration: none;
   color: #2dc4b2;
 }
-
-.mapboxgl-popup {
-  max-width: 400px;
-  font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
-
 #console {
   position: absolute;
   top: 10px;
-  right: 60px;
-  width: 240px;
+  right: 10px;
+  width: 300px;
   margin: 10px;
   padding: 10px 20px;
   background-color: white;
@@ -68,12 +63,46 @@ a {
 .colors {
   background:
   linear-gradient(to right, #edf8e9, #bae4b3, #74c476, #31a354, #277742);
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 .label {
-  width: 18%;
+  width: 15%;
   display: inline-block;
   text-align: left;
+  margin-bottom: 15px;
+}
+.map-overlay{
+  font-size: 13px;
+  margin-top: 7.5px;
+  line-height:20px;
+  margin-bottom: 7.5px;
+}
+.legend-note{
+  font-size: 12px;
+  line-height: 14px;
+  margin-bottom: 5px;
+}
+
+.fieldset {
+  display: none;
+  background: #ddd;
+  border: none;
+  padding: 10px;
+  margin: 0;
+}
+
+#fly {
+  display: block;
+  position: relative;
+  margin: 0px auto;
+  width: 20%;
+  height: 40px;
+  padding: 10px;
+  border: none;
+  font-size: 12px;
+  text-align: center;
+  color: #fff;
+  background: #ee8a65;
 }
 
 </style>
@@ -81,22 +110,39 @@ a {
 <div id='map'></div>
 <!-- the console div contains both the legend and the radio buttons-->
 <div id='console'>
-  <h1>Global Economic Impact of Tourism</h1>
+  <h1>Economic Impact of Tourism</h1>
   <div class='session'>
-    <h2>Tourism Contribution per 1000$ GDP</h2>
-      <h3>White areas contain no data</h3>
-    <div class='row colors'>
-    </div>
+    <h2>Tourism Contribution per 1000$ GDP (US Dollars)</h2>
+    <div class = 'legend-note'>White areas contain no data</div>
+    <div class='row colors'></div>
     <div class='row labels'>
       <div class='label'>0</div>
       <div class='label'>12</div>
       <div class='label'>25</div>
       <div class='label'>43</div>
-      <div class='label'>80+</div>
+      <div class='label'>80</div>
+      <div class='label'>>80</div>
     </div>
   </div>
+  <div class='map-overlay' id='map-overlay'>
+    <h4>Highlighted Country Information</h4>
+    <div><strong><label id='country'></label></strong></div>
+    <div><b>Population: </b><label id='population'></label></div>
+    <div><b>Tourism GDP Contribution/1000$: </b><label id='highlighted'></label></div>
+    <div><b>Percent of total exports: </b><label id='percent'></label></div>
+    <div><b>Visitor Expenditure: : </b><label id='receipts'></label></div>
+    <div><b>Departures per 1000 people: </b><label id='depart'></label></div>
+  </div>
+  <div class='map-overlay'>
+    <fieldset>
+      <input id='feature-filter' type='text' placeholder='Search for Rank' />
+    </fieldset>
+    <button id='fly'>Search</button>
+  </div>
+
+
 </div>
-</body>
+
 
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kZXJzb25mcmFua2xpbiIsImEiOiJjanJ0Z3lsZGYya3JuNDNsYXQzZ2JzcnhxIn0.xXCZIU7evgND3A3MHGGqkg';
@@ -107,10 +153,22 @@ var map = new mapboxgl.Map({
   zoom: 1.42
 });
 
+var overlay = document.getElementById('map-overlay');
+
+// Create a popup, but don't add it to the map yet.
+var popup = new mapboxgl.Popup({
+  closeButton: false
+});
+
+var url2 = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats2.geojson';
+var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/centroids.geojson'
+
 map.on('load', function() {
-  map.addSource('tourismPoly', {
-      type: 'vector',
-      url: 'mapbox://andersonfranklin.5yid519l'
+  map.addSource('tourismPoly', { type: 'geojson', data: url2 });
+
+  map.addSource('centroids', {
+    type: 'geojson',
+    data: url
   });
 
   map.addLayer({
@@ -120,7 +178,6 @@ map.on('load', function() {
       'layout': {
           'visibility': 'visible'
       },
-      'source-layer':'tourism_gdp-8a9sx0',
       'paint': {
         'fill-color': [
         'interpolate',
@@ -129,40 +186,102 @@ map.on('load', function() {
         0.68, '#bae4b3',
         25, '#74c476',
         43, '#31a354',
-        80, '#277742'],//this fill-color input paints each polygon using an interpolated fill color based on the size of each fire in HA
+        80, '#277742'],
       },
-      'filter': ['has', 'TourismGDP'],
-  }, 'road-label');
 
-  var popup = new mapboxgl.Popup({
-    closeButton: false
-  });
+      'filter': ['>', ['number', ['get', 'Rank']], 0]
+  }, 'admin-1-boundary-bg');
 
+  map.addLayer({
+      'id': 'GDP-highlighted',
+      'source': 'tourismPoly',
+      'type': 'fill',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'paint': {
+        "fill-outline-color": "#e7298a",
+        'fill-color': '#df65b0',
+        'fill-opacity': 0.60
+      },
+      'filter': ["in", "NAME", ""]
+  }, 'admin-1-boundary-bg');
 
-  map.on('mouseenter', 'GDP', function(e) {
+  map.addLayer({
+      'id': 'centroid-points',
+      'source': 'centroids',
+      'type': 'circle',
+      'layout': {
+          'visibility': 'visible'
+      },
+      'paint':{
+        'circle-opacity': 0,
+      }
+  }, 'admin-1-boundary-bg');
+
+  map.on('mousemove', 'GDP', function(e) {
     // Change the cursor style as a UI indicator.
     map.getCanvas().style.cursor = 'pointer';
 
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    var feature = e.features[0].TourismGDP;
+    // Single out the first found feature.
+    var feature = e.features[0];
+
+    var country = document.getElementById('country');
+    country.textContent = feature.properties.NAME;
+
+    var highlighted = document.getElementById('highlighted');
+    highlighted.textContent = feature.properties.TourismGDP + '$';
+
+    var percent = document.getElementById('percent');
+    percent.textContent = feature.properties.PCTExports;
+
+    var population = document.getElementById('population');
+    population.textContent = feature.properties.PopAmount;
+
+    var receipts = document.getElementById('receipts');
+    receipts.textContent = feature.properties.ReceiptsPC;
+
+    var depart = document.getElementById('depart');
+    depart.textContent = feature.properties.IntlDepart;
 
 
-    // Populate the popup and set its coordinates
-    // based on the feature found.
-    popup.setLngLat(e.LngLat)
-      .setHTML(feature)
+
+    //highlight the country under the mouse
+    map.setFilter('GDP-highlighted', ['in', 'NAME', feature.properties.NAME]);
+
+    // Display a popup with the name of the county
+    popup.setLngLat(e.lngLat)
+      .setText(feature.properties.TourismGDP + '$, Global Rank: ' + feature.properties.Rank)
       .addTo(map);
   });
 
   map.on('mouseleave', 'GDP', function() {
     map.getCanvas().style.cursor = '';
     popup.remove();
+    map.setFilter('GDP-highlighted', ['in', 'GDP', '']);
   });
+
+
+  function updateInt (q) {
+    intSearched = parseInt(q.target.value)
+  };
+  document.getElementById('feature-filter').addEventListener('change',function(f){
+    IntSearched = parseInt(f.target.value);
+    filtered = map.querySourceFeatures('centroids',{
+      filter: ['==', ['number', ['get', 'Rank']], IntSearched],
+    });
+    map.flyTo({
+      center: filtered[0].geometry.coordinates,
+      zoom: 7
+    });
+  });
+
+
+
 
 
 
 });
 </script>
-
 </body>
 </html>

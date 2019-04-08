@@ -137,7 +137,7 @@ a {
     <fieldset>
       <input id='feature-filter' type='text' placeholder='Search for Rank' />
     </fieldset>
-    <div class = 'legend-note'>Zoom out to search for another Country</div>
+    <div class = 'legend-note'>Clear searh bar before searching for another Country</div>
   </div>
 
 
@@ -261,11 +261,11 @@ map.on('load', function() {
     map.setFilter('GDP-highlighted', ['in', 'GDP', '']);
   });
 
-
-  function updateInt (q) {
-    intSearched = parseInt(q.target.value)
-  };
   document.getElementById('feature-filter').addEventListener('input',function(f){
+    map.flyTo({
+      center:[0,0],
+      zoom: 2
+    });
     IntSearched = parseInt(f.target.value);
     filtered = map.querySourceFeatures('centroids',{
       filter: ['==', ['number', ['get', 'Rank']], IntSearched],

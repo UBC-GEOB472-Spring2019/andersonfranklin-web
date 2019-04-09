@@ -160,7 +160,9 @@ var popup = new mapboxgl.Popup({
   closeButton: false
 });
 
+//add country data polygons
 var url2 = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/tourism-stats2.geojson';
+//add country data centroids (for search function)
 var url = 'https://raw.githubusercontent.com/andersonfranklin/interactive-mapping/master/centroids.geojson'
 
 map.on('load', function() {
@@ -179,7 +181,7 @@ map.on('load', function() {
           'visibility': 'visible'
       },
       'paint': {
-        'fill-color': [
+        'fill-color': [//fills in the color of the polygons based on their GDP
         'interpolate',
         ['linear'],
         ['number', ['get', 'TourismGDP']],
@@ -225,7 +227,7 @@ map.on('load', function() {
 
     // Single out the first found feature.
     var feature = e.features[0];
-
+    //Begin filling out items in the console (legend)
     var country = document.getElementById('country');
     country.textContent = feature.properties.NAME;
 
@@ -254,13 +256,13 @@ map.on('load', function() {
       .setText(feature.properties.TourismGDP + '$, Global Rank: ' + feature.properties.Rank)
       .addTo(map);
   });
-
+  //close the popup when the mouse leaves the country it is in
   map.on('mouseleave', 'GDP', function() {
     map.getCanvas().style.cursor = '';
     popup.remove();
     map.setFilter('GDP-highlighted', ['in', 'GDP', '']);
   });
-
+  //Flies directly to the country with the input rank
   document.getElementById('feature-filter').addEventListener('input',function(f){
     map.flyTo({
       center:[0,0],
